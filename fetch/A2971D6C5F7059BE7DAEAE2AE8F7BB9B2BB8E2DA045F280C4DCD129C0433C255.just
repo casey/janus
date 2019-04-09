@@ -1,0 +1,2 @@
+build:
+    qtdeploy build desktop

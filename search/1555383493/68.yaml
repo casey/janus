@@ -1,0 +1,25 @@
+---
+- user: sporto
+  repo: save-up
+  hash: bba4d827e6ae7fcc376b07a2162989cfca1e4a74
+  path: /api/hello/Justfile
+- user: sporto
+  repo: save-up
+  hash: bba4d827e6ae7fcc376b07a2162989cfca1e4a74
+  path: /api/mail/Justfile
+- user: sporto
+  repo: save-up
+  hash: c9bdec768e5f6194cee17f2b12ccd7317d31b498
+  path: /api/Justfile
+- user: sporto
+  repo: save-up
+  hash: ea881547f337d6ad64dea8ebe8d7cb9326bf2575
+  path: /api/graphql/Justfile
+- user: sporto
+  repo: save-up
+  hash: f381e59f5a1791d08f034d4d33eae38d2481cca1
+  path: /Justfile
+- user: sporto
+  repo: save-up
+  hash: f381e59f5a1791d08f034d4d33eae38d2481cca1
+  path: /client/Justfile

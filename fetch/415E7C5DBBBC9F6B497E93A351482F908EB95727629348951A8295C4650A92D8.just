@@ -1,0 +1,6 @@
+# wengwengweng
+
+run:
+	cargo run
+
+

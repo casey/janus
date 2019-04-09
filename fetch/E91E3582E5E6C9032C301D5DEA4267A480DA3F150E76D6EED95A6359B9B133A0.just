@@ -1,0 +1,2 @@
+open:
+	open index.html
