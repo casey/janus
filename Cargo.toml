@@ -3,6 +3,7 @@ name    = "janus"
 version = "0.0.0"
 authors = ["Casey Rodarmor <casey@rodarmor.com>"]
 edition = "2018"
+publish = false
 
 [dependencies]
 glob         = "0.3.0"
