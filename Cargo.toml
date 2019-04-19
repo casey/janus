@@ -18,9 +18,9 @@ sha2         = "0.8.0"
 structopt    = "0.2.15"
 colored-diff = "0.2.1"
 
-[dependencies.just_0_4_1]
+[dependencies.just_release]
 package  = "just"
-version  = "0.4.1"
+version  = "0.4.2"
 
 [dependencies.just_dev]
 package  = "just"

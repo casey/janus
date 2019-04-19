@@ -1,8 +1,8 @@
 use crate::common::*;
 
-use just_0_4_1::summary as old;
+use just_release::summary as release;
 
-impl Upgrade for old::Summary {
+impl Upgrade for release::Summary {
   type Output = Summary;
 
   fn upgrade(self) -> Self::Output {
@@ -13,7 +13,7 @@ impl Upgrade for old::Summary {
   }
 }
 
-impl Upgrade for old::Assignment {
+impl Upgrade for release::Assignment {
   type Output = Assignment;
 
   fn upgrade(self) -> Self::Output {
@@ -24,7 +24,7 @@ impl Upgrade for old::Assignment {
   }
 }
 
-impl Upgrade for old::Recipe {
+impl Upgrade for release::Recipe {
   type Output = Recipe;
 
   fn upgrade(self) -> Self::Output {
@@ -40,7 +40,7 @@ impl Upgrade for old::Recipe {
   }
 }
 
-impl Upgrade for old::Line {
+impl Upgrade for release::Line {
   type Output = Line;
 
   fn upgrade(self) -> Self::Output {
@@ -50,40 +50,40 @@ impl Upgrade for old::Line {
   }
 }
 
-impl Upgrade for old::Fragment {
+impl Upgrade for release::Fragment {
   type Output = Fragment;
 
   fn upgrade(self) -> Self::Output {
     match self {
-      old::Fragment::Text { text } => Fragment::Text { text },
-      old::Fragment::Expression { expression } => Fragment::Expression {
+      release::Fragment::Text { text } => Fragment::Text { text },
+      release::Fragment::Expression { expression } => Fragment::Expression {
         expression: expression.upgrade(),
       },
     }
   }
 }
 
-impl Upgrade for old::Expression {
+impl Upgrade for release::Expression {
   type Output = Expression;
 
   fn upgrade(self) -> Self::Output {
     match self {
-      old::Expression::Backtick { command } => Expression::Backtick { command },
-      old::Expression::Call { name, arguments } => Expression::Call {
+      release::Expression::Backtick { command } => Expression::Backtick { command },
+      release::Expression::Call { name, arguments } => Expression::Call {
         name,
         arguments: arguments.upgrade(),
       },
-      old::Expression::Concatination { lhs, rhs } => Expression::Concatination {
+      release::Expression::Concatination { lhs, rhs } => Expression::Concatination {
         lhs: Box::new(lhs.upgrade()),
         rhs: Box::new(rhs.upgrade()),
       },
-      old::Expression::String { text } => Expression::String { text },
-      old::Expression::Variable { name } => Expression::Variable { name },
+      release::Expression::String { text } => Expression::String { text },
+      release::Expression::Variable { name } => Expression::Variable { name },
     }
   }
 }
 
-impl Upgrade for old::Parameter {
+impl Upgrade for release::Parameter {
   type Output = Parameter;
 
   fn upgrade(self) -> Self::Output {

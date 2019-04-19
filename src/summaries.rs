@@ -1,7 +1,6 @@
 use crate::common::*;
 
 pub struct Summaries {
-  version: &'static str,
   duration: Duration,
   paths: Vec<PathBuf>,
   results: Vec<Result<Summary, String>>,
@@ -10,7 +9,6 @@ pub struct Summaries {
 impl Summaries {
   pub fn collect<T: Upgrade<Output = Summary>>(
     paths: &[PathBuf],
-    version: &'static str,
     f: fn(&Path) -> Result<Result<T, String>, io::Error>,
   ) -> Result<Summaries, Error> {
     let mut results = Vec::new();
@@ -27,7 +25,6 @@ impl Summaries {
 
     Ok(Summaries {
       paths: paths.iter().cloned().collect(),
-      version,
       duration,
       results,
     })
@@ -125,8 +122,6 @@ impl Summaries {
   }
 
   pub fn compare(&self, old: &Summaries) {
-    println!("comparing {} with {}...", self.version, old.version);
-
     if self.duration > old.duration {
       let increase = self.duration - old.duration;
       println!(

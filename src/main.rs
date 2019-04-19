@@ -11,7 +11,7 @@ mod summaries;
 mod upgrade;
 
 mod dev;
-mod v0_4_1;
+mod release;
 
 use crate::common::*;
 

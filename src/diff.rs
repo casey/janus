@@ -51,10 +51,14 @@ impl<'a> Display for Diff<'a> {
       }
       Diff::Error { old, new } => {
         writeln!(f, "error mismatch:")?;
-        writeln!(f, "old error:")?;
-        writeln!(f, "{}", old)?;
-        writeln!(f, "new error:")?;
-        write!(f, "{}", new)?;
+        write!(
+          f,
+          "{}",
+          colored_diff::PrettyDifference {
+            expected: &old,
+            actual: &new
+          }
+        )?;
       }
       Diff::SummaryToError { old, new } => {
         writeln!(f, "old summary is now error:")?;
