@@ -167,20 +167,6 @@ impl Summaries {
         println!("{}", diff);
       }
     }
-
-    /*
-    for (path, pair) in self
-      .paths
-      .iter()
-      .zip(old.results.iter().zip(self.results.iter()))
-    {
-      if let Some(diff) = Diff::from_pair(pair) {
-        println!("-----------------");
-        println!("diff in {}:", path.display());
-        println!("{}", diff);
-      }
-    }
-    */
   }
 }
 
