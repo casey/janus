@@ -6,22 +6,23 @@ edition = "2018"
 publish = false
 
 [dependencies]
-glob         = "0.3.0"
-http         = "0.1.17"
-regex        = "1.1.5"
-reqwest      = "0.9.13"
-scraper      = "0.10.0"
-serde        = "1.0.90"
-serde_derive = "1.0.90"
-serde_yaml   = "0.8.8"
-sha2         = "0.8.0"
-structopt    = "0.2.15"
-colored-diff = "0.2.1"
+glob         = "0.3"
+http         = "0.1"
+regex        = "1.1"
+reqwest      = "0.9"
+scraper      = "0.10"
+serde        = "1"
+serde_derive = "1"
+serde_yaml   = "0.8"
+sha2         = "0.8"
+structopt    = "0.2"
+colored-diff = "0.2"
 
 [dependencies.just_release]
 package  = "just"
-version  = "0.4.2"
+version  = "0.4.4"
 
 [dependencies.just_dev]
 package  = "just"
 path     = "../just"
+features = ["summary"]
