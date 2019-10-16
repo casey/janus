@@ -1,0 +1,9 @@
+---
+- user: truffrose
+  repo: cloudFriendly
+  hash: f1d3e261b2274c65494ed1035daf729f3bd80cb5
+  path: /data/1/justFile
+- user: tunrida
+  repo: testing
+  hash: 6edda67549716a5901f4f726e7e0c1cc18a73651
+  path: /justFile
