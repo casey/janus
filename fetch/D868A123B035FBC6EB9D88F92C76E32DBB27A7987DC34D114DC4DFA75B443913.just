@@ -1,0 +1,12 @@
+export GRAAL_HOME := "~/.jenv/candidates/java/graalvm-19.2.0.1"
+
+# maven build
+build:
+   mvn -DskipTests clean package
+
+# native build
+native_build: build
+   mvn -DskipTests package native-image:native-image
+
+run_with_agent:
+   {{GRAAL_HOME}}/bin/java -agentlib:native-image-agent=config-output-dir=target/classes/META-INF/native-image -jar target/native-image-demo-1.0.0-SNAPSHOT-jar-with-dependencies.jar
