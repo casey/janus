@@ -8,17 +8,7 @@ fn fetch_url(hit: &Hit) -> String {
 }
 
 pub(crate) fn fetch() -> Result<(), Error> {
-  let mut hits = BTreeSet::new();
-
-  for result in glob("search/*/*.yaml")? {
-    let path = result?;
-
-    let text = fs::read_to_string(path)?;
-
-    let page_hits: Vec<Hit> = serde_yaml::from_str(&text)?;
-
-    hits.extend(page_hits.into_iter());
-  }
+  let hits = Hit::load_search_dir()?;
 
   eprintln!("Fetching {} hits...", hits.len());
 
