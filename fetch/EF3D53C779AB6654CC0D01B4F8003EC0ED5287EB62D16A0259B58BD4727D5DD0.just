@@ -1,0 +1,25 @@
+docker-build:
+  docker build -t ${DOCKER_IMAGE}:latest .
+
+spawn-redis:
+  docker kill redis || true
+  docker rm redis || true
+  docker run --rm -d -p 6379:6379 --name redis redis
+
+docker-start:
+  docker rm spotifytrack-server || true
+  echo "$SPOTIFY_CLIENT_ID"
+  docker run -it --net host -p 3999:3999 --name spotifytrack-server \
+    -e ROCKET_DATABASES="{ spotify_homepage = { url = \"$DATABASE_URL\" } }" \
+    -e PORT="$PORT" \
+    -e SPOTIFY_CLIENT_ID="$SPOTIFY_CLIENT_ID" \
+    -e SPOTIFY_CLIENT_SECRET="$SPOTIFY_CLIENT_SECRET" \
+    -e API_SERVER_URL="$API_SERVER_URL" \
+    -e WEBSITE_URL="$WEBSITE_URL" \
+    -e REDIS_URL="$REDIS_URL" \
+    -e ADMIN_API_TOKEN="$ADMIN_API_TOKEN" \
+    ${DOCKER_IMAGE}:latest
+
+deploy:
+  just docker-build
+  docker push $DOCKER_IMAGE
