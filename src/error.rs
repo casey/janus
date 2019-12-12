@@ -8,6 +8,8 @@ pub enum Error {
   Serde(serde_yaml::Error),
   Pattern(glob::PatternError),
   Glob(glob::GlobError),
+  Status(http::StatusCode),
+  Empty,
 }
 
 impl From<reqwest::Error> for Error {
@@ -43,5 +45,11 @@ impl From<glob::PatternError> for Error {
 impl From<glob::GlobError> for Error {
   fn from(error: glob::GlobError) -> Error {
     Error::Glob(error)
+  }
+}
+
+impl From<http::StatusCode> for Error {
+  fn from(error: http::StatusCode) -> Error {
+    Error::Status(error)
   }
 }

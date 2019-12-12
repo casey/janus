@@ -17,8 +17,6 @@ pub(crate) fn search(user_session: String) -> Result<(), Error> {
 
   let a_href = Selector::parse("a[href]").unwrap();
 
-  let a_next = Selector::parse("a[rel='next'][href]").unwrap();
-
   let re = Regex::new(
     r"(?ix)
     ^
@@ -44,9 +42,23 @@ pub(crate) fn search(user_session: String) -> Result<(), Error> {
   fs::create_dir_all(&search_dir)?;
 
   for page in 1.. {
-    eprintln!("Requesting page {}...", page);
+    let start = Instant::now();
+
+    eprint!("Requesting page {}... ", page);
     let search_url = search_url(page);
-    let body = client.get(&search_url).send()?.text()?;
+    let mut response = client.get(&search_url).send()?;
+    let body = response.text()?;
+
+    if response.status() == 404 {
+      break;
+    }
+
+    if !response.status().is_success() {
+      eprintln!("Request failed: {}", response.status());
+      eprintln!("{}", body);
+      return Err(response.status().into());
+    }
+
     let html = Html::parse_document(&body);
 
     let mut hits = BTreeSet::new();
@@ -66,17 +78,23 @@ pub(crate) fn search(user_session: String) -> Result<(), Error> {
       }
     }
 
+    eprintln!("{} hits", hits.len());
+
+    if hits.is_empty() {
+      return Err(Error::Empty);
+    }
+
     let serialized = serde_yaml::to_string(&hits.into_iter().collect::<Vec<Hit>>()).unwrap();
 
     let path = search_dir.join(&format!("{}.yaml", page));
 
     fs::write(path, &serialized).unwrap();
 
-    if html.select(&a_next).into_iter().next().is_none() {
-      break;
-    }
+    let end = Instant::now();
 
-    thread::sleep(DELAY);
+    if start + DELAY > end {
+      thread::sleep(DELAY);
+    }
   }
 
   Ok(())

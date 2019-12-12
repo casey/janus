@@ -24,6 +24,17 @@ pub(crate) fn fetch() -> Result<(), Error> {
 
     match reqwest::get(&url) {
       Ok(mut response) => {
+        let status = response.status();
+
+        if status == 404 {
+          eprintln!("missing");
+          continue;
+        }
+
+        if !response.status().is_success() {
+          return Err(response.status().into());
+        }
+
         let mut data = Vec::new();
         response.copy_to(&mut data)?;
         let digest = Sha256::digest(&data);

@@ -30,7 +30,7 @@ impl Upgrade for release::Recipe {
   fn upgrade(self) -> Self::Output {
     Recipe {
       aliases: self.aliases,
-      dependencies: self.dependencies,
+      dependencies: self.dependencies.upgrade(),
       lines: self.lines.upgrade(),
       private: self.private,
       quiet: self.quiet,
@@ -91,6 +91,17 @@ impl Upgrade for release::Parameter {
       variadic: self.variadic,
       name: self.name,
       default: self.default.upgrade(),
+    }
+  }
+}
+
+impl Upgrade for release::Dependency {
+  type Output = Dependency;
+
+  fn upgrade(self) -> Self::Output {
+    Dependency {
+      recipe: self.recipe,
+      arguments: self.arguments.upgrade(),
     }
   }
 }
