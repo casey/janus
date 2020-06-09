@@ -1,0 +1,8 @@
+build_scraper:
+  docker build -t robintrack-scraper -f Dockerfile.scraper .
+
+build_popularity_exporter:
+  docker build -t robintrack-popularity-exporter -f Dockerfile.popularity_exporter .
+
+build_combined_csv_writer:
+  docker build -t robintrack-combined-csv-writer -f Dockerfile.combined-csv-writer .
