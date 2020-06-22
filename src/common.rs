@@ -19,7 +19,7 @@ pub(crate) use sha2::Sha256;
 pub(crate) use structopt::StructOpt;
 
 pub(crate) use just_dev::summary::{
-  Assignment, Dependency, Expression, Fragment, Line, Parameter, Recipe, Summary,
+  Assignment, Dependency, Expression, Fragment, Line, Parameter, ParameterKind, Recipe, Summary,
 };
 
 pub(crate) use crate::{analyze::analyze, fetch::fetch, search::search};

@@ -88,7 +88,11 @@ impl Upgrade for release::Parameter {
 
   fn upgrade(self) -> Self::Output {
     Parameter {
-      variadic: self.variadic,
+      kind: if self.variadic {
+        ParameterKind::Plus
+      } else {
+        ParameterKind::Singular
+      },
       name: self.name,
       default: self.default.upgrade(),
     }
