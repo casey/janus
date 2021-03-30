@@ -10,8 +10,8 @@ pub(crate) use std::{
 pub(crate) use glob::glob;
 pub(crate) use regex::Regex;
 pub(crate) use reqwest::{
+  blocking::Client,
   header::{HeaderMap, COOKIE},
-  Client,
 };
 pub(crate) use scraper::{Html, Selector};
 pub(crate) use serde_derive::{Deserialize, Serialize};

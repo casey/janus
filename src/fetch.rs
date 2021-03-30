@@ -22,7 +22,7 @@ pub(crate) fn fetch() -> Result<(), Error> {
     let url = fetch_url(hit);
     eprint!("/{}/{}{}... ", hit.user, hit.repo, hit.path);
 
-    match reqwest::get(&url) {
+    match reqwest::blocking::get(&url) {
       Ok(mut response) => {
         let status = response.status();
 

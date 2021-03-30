@@ -46,17 +46,18 @@ pub(crate) fn search(user_session: String) -> Result<(), Error> {
 
     eprint!("Requesting page {}... ", page);
     let search_url = search_url(page);
-    let mut response = client.get(&search_url).send()?;
+    let response = client.get(&search_url).send()?;
+    let status = response.status();
     let body = response.text()?;
 
-    if response.status() == 404 {
+    if status == 404 {
       break;
     }
 
-    if !response.status().is_success() {
-      eprintln!("Request failed: {}", response.status());
+    if !status.is_success() {
+      eprintln!("Request failed: {}", status);
       eprintln!("{}", body);
-      return Err(response.status().into());
+      return Err(status.into());
     }
 
     let html = Html::parse_document(&body);

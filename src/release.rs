@@ -68,6 +68,19 @@ impl Upgrade for release::Expression {
 
   fn upgrade(self) -> Self::Output {
     match self {
+      release::Expression::Conditional {
+        lhs,
+        rhs,
+        then,
+        otherwise,
+        inverted,
+      } => Expression::Conditional {
+        lhs: Box::new(lhs.upgrade()),
+        rhs: Box::new(rhs.upgrade()),
+        then: Box::new(then.upgrade()),
+        otherwise: Box::new(otherwise.upgrade()),
+        inverted,
+      },
       release::Expression::Backtick { command } => Expression::Backtick { command },
       release::Expression::Call { name, arguments } => Expression::Call {
         name,
@@ -88,13 +101,21 @@ impl Upgrade for release::Parameter {
 
   fn upgrade(self) -> Self::Output {
     Parameter {
-      kind: if self.variadic {
-        ParameterKind::Plus
-      } else {
-        ParameterKind::Singular
-      },
+      kind: self.kind.upgrade(),
       name: self.name,
       default: self.default.upgrade(),
+    }
+  }
+}
+
+impl Upgrade for release::ParameterKind {
+  type Output = ParameterKind;
+
+  fn upgrade(self) -> Self::Output {
+    match self {
+      release::ParameterKind::Plus => ParameterKind::Plus,
+      release::ParameterKind::Singular => ParameterKind::Singular,
+      release::ParameterKind::Star => ParameterKind::Star,
     }
   }
 }
