@@ -1,0 +1,25 @@
+---
+- user: VisionSystemsInc
+  repo: vkmetrics
+  hash: 650fbd11654d00b1e74896c287decad19c324485
+  path: /Justfile
+- user: bradwood
+  repo: git_lab_rust
+  hash: 36544d138d8755876453f517d15e72ec19003720
+  path: /justfile
+- user: layer1capital
+  repo: ledger
+  hash: 85fbc5781ec3df78c2e5ce378d6db557aaeae9a4
+  path: /justfile
+- user: linux-china
+  repo: intellij-justfile
+  hash: 960181f597b607c123a90a063684a4fe4bf9da0a
+  path: /grammars/justfile
+- user: linux-china
+  repo: intellij-justfile
+  hash: 960181f597b607c123a90a063684a4fe4bf9da0a
+  path: /justfile
+- user: zphixon
+  repo: froggi
+  hash: 331cf292792cb5313d4081c0145ab7448c5a420d
+  path: /Justfile

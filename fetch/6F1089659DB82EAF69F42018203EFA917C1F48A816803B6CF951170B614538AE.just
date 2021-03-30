@@ -1,0 +1,3 @@
+bindgen:
+  bindgen ffi.h
+

@@ -1,0 +1,17 @@
+---
+- user: GoldsteinE
+  repo: AdventOfAsm2020
+  hash: 971b746b843738d6ee4c6f061a0427e0d1f327ef
+  path: /justfile
+- user: bolucat
+  repo: Firefox
+  hash: 1b736810e35660a93693eb61e3dfc9e85389c3aa
+  path: /third_party/rust/clap/justfile
+- user: bolucat
+  repo: Firefox
+  hash: 1b736810e35660a93693eb61e3dfc9e85389c3aa
+  path: /third_party/rust/term_size/justfile
+- user: embedded-graphics
+  repo: examples
+  hash: 63860c8cbca073c5ef4a3bff72a6ef12a7bf6213
+  path: /justfile

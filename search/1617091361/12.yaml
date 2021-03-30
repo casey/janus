@@ -1,0 +1,25 @@
+---
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /.cloudseed/cloud/lib/provider/gcp/justfile
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /.cloudseed/cloud/lib/terragrunt/app/justfile
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /.cloudseed/deno/justfile
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /app/api-public/justfile
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /app/browser/justfile
+- user: metapages
+  repo: asman.io
+  hash: 7b6bc3e3ec2586d125c22e4ecb4da3383b091b3c
+  path: /ci/github/justfile
