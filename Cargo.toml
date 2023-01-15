@@ -29,4 +29,3 @@ features = ["summary"]
 [dependencies.just_dev]
 package  = "just"
 path     = "../just"
-features = ["summary"]

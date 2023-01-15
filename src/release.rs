@@ -79,14 +79,18 @@ impl Upgrade for release::Expression {
         rhs: Box::new(rhs.upgrade()),
         then: Box::new(then.upgrade()),
         otherwise: Box::new(otherwise.upgrade()),
-        inverted,
+        operator: if inverted {
+          ConditionalOperator::Inequality
+        } else {
+          ConditionalOperator::Equality
+        },
       },
       release::Expression::Backtick { command } => Expression::Backtick { command },
       release::Expression::Call { name, arguments } => Expression::Call {
         name,
         arguments: arguments.upgrade(),
       },
-      release::Expression::Concatination { lhs, rhs } => Expression::Concatination {
+      release::Expression::Concatination { lhs, rhs } => Expression::Concatenation {
         lhs: Box::new(lhs.upgrade()),
         rhs: Box::new(rhs.upgrade()),
       },
