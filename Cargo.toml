@@ -6,25 +6,17 @@ edition = "2018"
 publish = false
 
 [dependencies]
-glob         = "0.3.0"
-http         = "0.2.3"
-regex        = "1.4.5"
-scraper      = "0.12.0"
-serde        = "1.0.125"
-serde_derive = "1.0.125"
-serde_yaml   = "0.8.17"
-sha2         = "0.9.3"
-structopt    = "0.3.21"
+clap = { version = "4.5.4", features = ["derive"] }
 colored-diff = "0.2.2"
-
-[dependencies.reqwest]
-version  = "0.11.2"
-features = ["blocking"]
-
-[dependencies.just_release]
-package  = "just"
-version  = "=1.26.0"
-
-[dependencies.just_dev]
-package  = "just"
-path     = "../just"
+glob = "0.3.0"
+http = "0.2.3"
+just_dev = { package  = "just", path = "../just" }
+just_release = { package  = "just", version  = "=1.26.0" }
+regex = "1.4.5"
+reqwest = { version = "0.11.2", features = ["blocking", "json"] }
+scraper = "0.12.0"
+serde = "1.0.125"
+serde_derive = "1.0.125"
+serde_json = "1.0.117"
+serde_yaml = "0.8.17"
+sha2 = "0.9.3"

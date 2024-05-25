@@ -1,5 +1,6 @@
+**/*.rs.bk
+/.env
 /fetch
 /link
 /search
 /target
-**/*.rs.bk

@@ -1,4 +1,4 @@
-use crate::common::*;
+use super::*;
 
 pub struct Counter<T: Ord + Clone> {
   counts: BTreeMap<T, u64>,

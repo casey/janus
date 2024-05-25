@@ -1,4 +1,4 @@
-use crate::common::*;
+use super::*;
 
 #[derive(PartialOrd, Ord, PartialEq, Eq)]
 pub enum Diff<'a> {
@@ -55,8 +55,8 @@ impl<'a> Display for Diff<'a> {
           f,
           "{}",
           colored_diff::PrettyDifference {
-            expected: &old,
-            actual: &new
+            expected: old,
+            actual: new
           }
         )?;
       }

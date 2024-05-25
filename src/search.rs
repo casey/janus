@@ -1,102 +1,97 @@
-use crate::common::*;
+use {
+  super::*,
+  reqwest::blocking::Client,
+  reqwest::header::{ACCEPT, AUTHORIZATION, USER_AGENT},
+  std::{
+    thread,
+    time::{SystemTime, UNIX_EPOCH},
+  },
+};
 
-use std::time::{SystemTime, UNIX_EPOCH};
-
-const SEARCH_URL_TEMPLATE: &str = "https://github.com/search?q=filename%3Ajustfile&type=Code";
-
-const DELAY: Duration = Duration::from_secs(10);
-
-fn search_url(page: u64) -> String {
-  format!("{}&p={}", SEARCH_URL_TEMPLATE, page)
+#[derive(Debug, Deserialize)]
+struct Results {
+  items: Vec<Item>,
 }
 
-pub(crate) fn search(user_session: String) -> Result<(), Error> {
-  let mut headers = HeaderMap::new();
+#[derive(Debug, Deserialize)]
+struct Item {
+  sha: String,
+  repository: Repository,
+  path: String,
+}
 
-  headers.insert(COOKIE, format!("user_session={}", user_session).parse()?);
+#[derive(Debug, Deserialize)]
+struct Repository {
+  name: String,
+  owner: Owner,
+}
 
-  let a_href = Selector::parse("a[href]").unwrap();
+#[derive(Debug, Deserialize)]
+struct Owner {
+  login: String,
+}
 
-  let re = Regex::new(
-    r"(?ix)
-    ^
-    /(?P<user>[^/]+)
-    /(?P<repo>[^/]+)
-    /blob
-    /(?P<hash>[0-9a-f]{40})
-    (?P<path>.*/justfile)
-    $
-    ",
-  )
-  .unwrap();
+pub(crate) fn search() -> Result<(), Error> {
+  let client = Client::new();
 
-  let client = Client::builder().default_headers(headers).build()?;
+  let mut hits = Vec::new();
+
+  for page in 0.. {
+    let response = client
+      .get(format!(
+        "https://api.github.com/search/code?q=filename:justfile&per_page=100&page={page}",
+      ))
+      .header(ACCEPT, "application/vnd.github+json")
+      .header(AUTHORIZATION, "Bearer TOKEN")
+      .header("X-GitHub-Api-Version", "2022-11-28")
+      .header(USER_AGENT, "janus")
+      .send()?;
+
+    if !response.status().is_success() {
+      return Err(
+        format!(
+          "Request failed with status {}\n{}",
+          response.status(),
+          response.text()?,
+        )
+        .into(),
+      );
+    };
+
+    let results: Results = serde_json::from_str(&response.text()?)?;
+
+    eprintln!("page {page}: {} hits", results.items.len());
+
+    if results.items.is_empty() {
+      break;
+    }
+
+    hits.extend(results.items.into_iter().map(|item| Hit {
+      user: item.repository.owner.login,
+      repo: item.repository.name,
+      hash: item.sha,
+      path: item.path,
+    }));
+
+    thread::sleep(Duration::from_secs(10));
+  }
+
+  if hits.is_empty() {
+    return Err("no results".into());
+  }
 
   let timestamp = SystemTime::now()
     .duration_since(UNIX_EPOCH)
     .unwrap()
     .as_secs();
 
-  let search_dir = Path::new("search").join(timestamp.to_string());
+  fs::create_dir_all("search")?;
 
-  fs::create_dir_all(&search_dir)?;
+  let path = Path::new("search").join(format!("{timestamp}.yaml"));
 
-  for page in 1.. {
-    let start = Instant::now();
+  let file = File::create(path)?;
 
-    eprint!("Requesting page {}... ", page);
-    let search_url = search_url(page);
-    let response = client.get(&search_url).send()?;
-    let status = response.status();
-    let body = response.text()?;
-
-    if status == 404 {
-      break;
-    }
-
-    if !status.is_success() {
-      eprintln!("Request failed: {}", status);
-      eprintln!("{}", body);
-      return Err(status.into());
-    }
-
-    let html = Html::parse_document(&body);
-
-    let mut hits = BTreeSet::new();
-
-    for a in html.select(&a_href) {
-      let value = a.value().attr("href").unwrap();
-
-      if let Some(captures) = re.captures(value) {
-        let hit = Hit {
-          user: captures.name("user").unwrap().as_str().to_owned(),
-          repo: captures.name("repo").unwrap().as_str().to_owned(),
-          hash: captures.name("hash").unwrap().as_str().to_owned(),
-          path: captures.name("path").unwrap().as_str().to_owned(),
-        };
-
-        hits.insert(hit);
-      }
-    }
-
-    eprintln!("{} hits", hits.len());
-
-    if hits.is_empty() {
-      return Err(Error::Empty);
-    }
-
-    let serialized = serde_yaml::to_string(&hits.into_iter().collect::<Vec<Hit>>()).unwrap();
-
-    let path = search_dir.join(&format!("{}.yaml", page));
-
-    fs::write(path, &serialized).unwrap();
-
-    let end = Instant::now();
-
-    if start + DELAY > end {
-      thread::sleep(DELAY);
-    }
-  }
+  serde_yaml::to_writer(file, &hits)?;
 
   Ok(())
 }

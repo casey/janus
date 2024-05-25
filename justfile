@@ -1,13 +1,15 @@
 watch +args='test':
 	cargo watch --ignore fetch --ignore link --ignore search --clear --exec '{{ args }}'
 
-run USER-SESSION: (search USER-SESSION) fetch analyze
+run: (search ) fetch analyze
 
-search USER-SESSION:
-	cargo run --release -- search --user-session {{USER-SESSION}}
+set dotenv-load
+
+search:
+	cargo run --release search
 
 fetch:
-	cargo run --release -- fetch
+	cargo run --release fetch
 
 analyze:
-	cargo run --release -- analyze
+	cargo run --release analyze

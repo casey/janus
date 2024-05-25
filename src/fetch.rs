@@ -1,4 +1,4 @@
-use crate::common::*;
+use super::*;
 
 fn fetch_url(hit: &Hit) -> String {
   format!(
@@ -32,7 +32,7 @@ pub(crate) fn fetch() -> Result<(), Error> {
         }
 
         if !response.status().is_success() {
-          return Err(response.status().into());
+          return Err(format!("Request failed with status {}", response.status()).into());
         }
 
         let mut data = Vec::new();

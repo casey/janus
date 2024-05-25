@@ -1,4 +1,4 @@
-use crate::common::*;
+use super::*;
 
 pub(crate) fn analyze(recipe_count_cutoff: u64) -> Result<(), Error> {
   let mut paths = glob("fetch/*.just")?.collect::<Result<Vec<PathBuf>, glob::GlobError>>()?;

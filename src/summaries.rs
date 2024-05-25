@@ -1,4 +1,4 @@
-use crate::common::*;
+use super::*;
 
 pub struct Summaries {
   duration: Duration,
@@ -24,7 +24,7 @@ impl Summaries {
     let results = results.upgrade();
 
     Ok(Summaries {
-      paths: paths.iter().cloned().collect(),
+      paths: paths.to_vec(),
       duration,
       results,
     })
