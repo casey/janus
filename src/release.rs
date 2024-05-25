@@ -73,29 +73,41 @@ impl Upgrade for release::Expression {
         rhs,
         then,
         otherwise,
-        inverted,
+        operator,
       } => Expression::Conditional {
         lhs: Box::new(lhs.upgrade()),
         rhs: Box::new(rhs.upgrade()),
         then: Box::new(then.upgrade()),
         otherwise: Box::new(otherwise.upgrade()),
-        operator: if inverted {
-          ConditionalOperator::Inequality
-        } else {
-          ConditionalOperator::Equality
-        },
+        operator: operator.upgrade(),
       },
       release::Expression::Backtick { command } => Expression::Backtick { command },
       release::Expression::Call { name, arguments } => Expression::Call {
         name,
         arguments: arguments.upgrade(),
       },
-      release::Expression::Concatination { lhs, rhs } => Expression::Concatenation {
+      release::Expression::Concatenation { lhs, rhs } => Expression::Concatenation {
         lhs: Box::new(lhs.upgrade()),
+        rhs: Box::new(rhs.upgrade()),
+      },
+      release::Expression::Join { lhs, rhs } => Expression::Join {
+        lhs: lhs.map(|lhs| Box::new(lhs.upgrade())),
         rhs: Box::new(rhs.upgrade()),
       },
       release::Expression::String { text } => Expression::String { text },
       release::Expression::Variable { name } => Expression::Variable { name },
+    }
+  }
+}
+
+impl Upgrade for release::ConditionalOperator {
+  type Output = ConditionalOperator;
+
+  fn upgrade(self) -> Self::Output {
+    match self {
+      Self::Equality => Self::Output::Equality,
+      Self::Inequality => Self::Output::Inequality,
+      Self::RegexMatch => Self::Output::RegexMatch,
     }
   }
 }

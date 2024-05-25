@@ -1,5 +1,5 @@
-watch:
-	cargo watch --ignore fetch --ignore link --ignore search --clear --exec check
+watch +args='test':
+	cargo watch --ignore fetch --ignore link --ignore search --clear --exec '{{ args }}'
 
 run USER-SESSION: (search USER-SESSION) fetch analyze
 

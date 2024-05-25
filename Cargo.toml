@@ -23,8 +23,7 @@ features = ["blocking"]
 
 [dependencies.just_release]
 package  = "just"
-version  = "0.9.0"
-features = ["summary"]
+version  = "=1.26.0"
 
 [dependencies.just_dev]
 package  = "just"
