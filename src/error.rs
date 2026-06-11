@@ -9,7 +9,7 @@ pub enum Error {
   Pattern(glob::PatternError),
   Glob(glob::GlobError),
   Status(http::StatusCode),
-  Empty,
+  Token,
 }
 
 impl From<reqwest::Error> for Error {

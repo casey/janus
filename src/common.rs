@@ -1,9 +1,10 @@
 pub(crate) use std::{
   collections::{BTreeMap, BTreeSet},
+  env,
   fmt::{self, Display, Formatter},
   fs, io, os,
   path::{Path, PathBuf},
-  thread,
+  process, thread,
   time::{Duration, Instant},
 };
 
@@ -11,9 +12,8 @@ pub(crate) use glob::glob;
 pub(crate) use regex::Regex;
 pub(crate) use reqwest::{
   blocking::Client,
-  header::{HeaderMap, COOKIE},
+  header::{HeaderMap, ACCEPT, AUTHORIZATION},
 };
-pub(crate) use scraper::{Html, Selector};
 pub(crate) use serde_derive::{Deserialize, Serialize};
 pub(crate) use sha2::Sha256;
 pub(crate) use structopt::StructOpt;

@@ -1,10 +1,10 @@
 watch +args='test':
 	cargo watch --ignore fetch --ignore link --ignore search --clear --exec '{{ args }}'
 
-run USER-SESSION: (search USER-SESSION) fetch analyze
+run: search fetch analyze
 
-search USER-SESSION:
-	cargo run --release -- search --user-session {{USER-SESSION}}
+search:
+	cargo run --release -- search
 
 fetch:
 	cargo run --release -- fetch

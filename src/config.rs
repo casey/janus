@@ -4,8 +4,8 @@ use crate::common::*;
 pub(crate) enum Config {
   #[structopt(name = "search")]
   Search {
-    #[structopt(long = "user-session", name = "USER-SESSION")]
-    user_session: String,
+    #[structopt(long = "token", name = "TOKEN")]
+    token: Option<String>,
   },
   #[structopt(name = "fetch")]
   Fetch,
@@ -23,7 +23,7 @@ pub(crate) enum Config {
 impl Config {
   pub fn run(self) -> Result<(), Error> {
     match self {
-      Config::Search { user_session } => search(user_session),
+      Config::Search { token } => search(token),
       Config::Fetch => fetch(),
       Config::Analyze {
         recipe_count_cutoff,
